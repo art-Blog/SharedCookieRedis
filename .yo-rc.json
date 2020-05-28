@@ -1,0 +1,10 @@
+{
+  "generator-gitignore-io": {
+    "options": [
+      "visualstudio",
+      "visualstudiocode",
+      "intellij",
+      "node"
+    ]
+  }
+}
