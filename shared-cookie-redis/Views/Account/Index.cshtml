@@ -1,0 +1,23 @@
+﻿<h1> welcome </h1>
+
+<h3>Status:@ViewBag.name</h3>
+
+<input type="text" id="pass" value="1234"/>
+<button onclick="login()">Login</button>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    async function login(){
+        var pass = $("#pass").val()
+        var data = { loginId:"test", password: pass}
+        console.log(data)
+        var response = await sendRequest(data)
+        console.log(response)
+    }
+    function sendRequest(data){
+        return $.ajax({
+            url:"/Account/Login",
+            method:"POST",
+            data:data
+        })
+    }
+</script>
