@@ -29,5 +29,11 @@ namespace SharedCookieRedis.Controllers
             return Json(new {result = true});
 
         }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await AuthorizeManagement.SignOutAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
