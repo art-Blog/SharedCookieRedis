@@ -1,12 +1,16 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using sharedCookieRedis.Helper;
+using StackExchange.Redis;
 
 namespace SharedCookieRedis
 {
@@ -30,6 +34,14 @@ namespace SharedCookieRedis
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            var redisConnStr = "127.0.0.1,abortConnect=false,syncTimeout=10000";
+            var redis = ConnectionMultiplexer.Connect(redisConnStr);
+            services.AddDataProtection();
+            services.Configure<KeyManagementOptions>(o =>
+            {
+                o.XmlRepository = new RedisXmlRepository(() => redis.GetDatabase(), "DataProtection-Keys");
             });
             
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
