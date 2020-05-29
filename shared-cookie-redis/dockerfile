@@ -10,10 +10,7 @@ RUN dotnet publish -c Release -o /out
 # 從build容器內複製build好的檔案至runtime容器
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 WORKDIR /app
+
+ENV ASPNETCORE_ENVIRONMENT="Lab"
 COPY --from=build /out .
 ENTRYPOINT ["dotnet", "shared-cookie-redis.dll"]
-
-
-#
-# docker build -t demo .
-# docker run -d --rm --name=mysite -p 7000:80 demo

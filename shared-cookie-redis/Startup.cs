@@ -36,7 +36,7 @@ namespace SharedCookieRedis
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var redisConnStr = "127.0.0.1,abortConnect=false,syncTimeout=10000";
+            var redisConnStr = Environment.GetEnvironmentVariable("redis");
             var redis = ConnectionMultiplexer.Connect(redisConnStr);
             services.AddDataProtection();
             services.Configure<KeyManagementOptions>(o =>

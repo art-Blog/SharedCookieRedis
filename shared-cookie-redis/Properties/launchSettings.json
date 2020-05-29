@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "redis": "127.0.0.1,abortConnect=false,syncTimeout=10000",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
