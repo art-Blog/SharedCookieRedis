@@ -1,0 +1,19 @@
+﻿# 建置發行檔案
+# copy 當前目錄檔案-->容器內app目錄
+# 到容器目錄app底下執行donet publish到 /app/out
+FROM microsoft/dotnet:2.1-sdk AS build
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /out
+
+# 佈署RUNTIME容器並執行網站
+# 從build容器內複製build好的檔案至runtime容器
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
+WORKDIR /app
+COPY --from=build /out .
+ENTRYPOINT ["dotnet", "shared-cookie-redis.dll"]
+
+
+#
+# docker build -t demo .
+# docker run -d --rm --name=mysite -p 7000:80 demo
