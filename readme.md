@@ -4,25 +4,5 @@
 
 > 採用 dotnetCore 2.1
 
-## dockerfile 
-```dockerfile
-FROM microsoft/dotnet:2.1-sdk AS build
-WORKDIR /src
-COPY . .
-RUN dotnet publish -c Release -o /out
-
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
-WORKDIR /app
-COPY --from=build /out .
-ENTRYPOINT ["dotnet", "shared-cookie-redis.dll"]
-```
-## 建立 docker image
-```
-docker build -t demo .
-```
-
-## 建立 container
-```
-docker run -d --rm --name=mysite -p 7000:80 demo
-```
+[Blog: dotnet core shared cookie by redis](https://partypeopleland.github.io/artblog/2020/05/29/dotnet-core-shared-cookie/)
 
